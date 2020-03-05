@@ -1,0 +1,2 @@
+<p class="info-text mat-body-1" *ngIf="posts.length <= 0">No Post Added Yet</p>
+<mat-card *ngFor="let post of posts">{{post.content}}</mat-card>
