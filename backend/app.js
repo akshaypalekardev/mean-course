@@ -28,14 +28,16 @@ app.post('/api/posts', (req, res, next) => {
   const post = new Post({
     content: req.body.content
   });
-  post.save();
-  res.status(201).json({
-    message: "Post added successfully"
-  })
+  post.save().then(createdPost =>{
+    res.status(201).json({
+      message: "Post added successfully",
+      postId: createdPost._id
+    });
+  });
 });
 
 //Get posts from database
-app.use('/api/posts', (req, res, next) => {
+app.get('/api/posts', (req, res, next) => {
   Post.find().then(documents => {
     res.status(200).json({
       message: 'Post fetched successfully',
@@ -44,15 +46,8 @@ app.use('/api/posts', (req, res, next) => {
   });
 });
 
-//Delete posts from database
-// app.delete('/api/posts/:id', (req, res, next) => {
-//   console.log("Hello");
-//   console.log(req.params.id);
-//   res.status(200).json({
-//     message: "Post Deleted!"
-//   });
-// });
 
+// Deleting a post from the database
 app.delete("/api/posts/:id", (req, res, next) => {
   Post.deleteOne({ _id: req.params.id }).then(result => {
     console.log(result);
