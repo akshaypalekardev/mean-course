@@ -46,6 +46,18 @@ app.get('/api/posts', (req, res, next) => {
   });
 });
 
+app.put('/api/posts/:id', (req, res, next) => {
+  const post = new Post({
+    content: content
+  });
+  Post.updateOne({_id: req.params.id},post).then(result => {
+    console.log(result);
+    res.status(200).json({
+      message: "Post Updated!"
+    });
+  })
+})
+
 
 // Deleting a post from the database
 app.delete("/api/posts/:id", (req, res, next) => {
